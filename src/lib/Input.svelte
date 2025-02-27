@@ -1,4 +1,6 @@
 <script>
+  
+  import Movie from './Movie.svelte';
 
   let searchValue = ''
   let loading = false
@@ -17,8 +19,6 @@ $: if (searchValue.length > 2) {
 const handleInput = (event) => 
   searchValue = event.target.value
   
-$: console.log(searchValue)
-
 </script>
 
 <input 
@@ -30,10 +30,16 @@ $: console.log(searchValue)
 
 {#if loading}
   <strong>Loading...</strong>
-{:else if response.length > 0}
-  <strong>Tenemos {response.length} peliculas</strong>
+{:else}
+  {#each response as {Title, Poster, Year}, index}
+    <Movie 
+      poster={Poster}
+      title={Title}
+      year={Year}
+    />
   {:else}
     <strong>No hay resultados</strong>
+  {/each}
 {/if}
 
 <style>
